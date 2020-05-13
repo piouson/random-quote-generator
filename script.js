@@ -30,6 +30,8 @@ class QuoteControls extends React.Component {
   }
 }
 
+const URL = "https://programming-quotes-api.herokuapp.com/quotes/random";
+
 class QuoteBox extends React.Component {
   constructor(props) {
     super(props);
@@ -37,15 +39,20 @@ class QuoteBox extends React.Component {
       quote: null,
       author: null
     };
+    this.getQuote = this.getQuote.bind(this);
   }
 
-  componentDidMount() {
-    fetch("https://programming-quotes-api.herokuapp.com/quotes/random")
+  getQuote(url) {
+    fetch(url)
       .then(response => response.json())
       .then(data => this.setState({
         quote: data.en,
         author: data.author
       }));
+  }
+
+  componentDidMount() {
+    this.getQuote(URL);
   }
 
   render() {
