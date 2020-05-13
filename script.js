@@ -32,7 +32,19 @@ class QuoteControls extends React.Component {
 class QuoteBox extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { quote: null }
+    this.state = {
+      quote: null,
+      author: null
+    };
+  }
+
+  componentDidMount() {
+    fetch("https://programming-quotes-api.herokuapp.com/quotes/random")
+      .then(response => response.json())
+      .then(data => this.setState({
+        quote: data.en,
+        author: data.author
+      }));
   }
 
   render() {
@@ -40,8 +52,8 @@ class QuoteBox extends React.Component {
       <div id="quote-box" className="d-flex flex-column m-2 rounded">
         <h1 className="text-center border-bottom">Tech Quotes</h1>
         <Quote
-          quote="quote text goes here"
-          author="quote author" />
+          quote={this.state.quote}
+          author={this.state.author} />
         <QuoteControls />
       </div>
     );
