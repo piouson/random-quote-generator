@@ -1,3 +1,5 @@
+const API = "https://programming-quotes-api.herokuapp.com/quotes/random";
+
 class Quote extends React.Component {
   render() {
     return (
@@ -23,14 +25,12 @@ class QuoteControls extends React.Component {
           <a id="insta-quote" href="#" className="p-1" target="_blank">
             <i className="fab fa-instagram"></i></a>
         </div>
-        <button id="new-quote" type="button"
-          className="btn" >New Quote</button>
+        <button id="new-quote" type="button" className="btn not-focusable"
+          onClick={this.props.nextQuote} >New Quote</button>
       </div>
     );
   }
 }
-
-const URL = "https://programming-quotes-api.herokuapp.com/quotes/random";
 
 class QuoteBox extends React.Component {
   constructor(props) {
@@ -42,8 +42,8 @@ class QuoteBox extends React.Component {
     this.getQuote = this.getQuote.bind(this);
   }
 
-  getQuote(url) {
-    fetch(url)
+  getQuote() {
+    fetch(API)
       .then(response => response.json())
       .then(data => this.setState({
         quote: data.en,
@@ -52,7 +52,7 @@ class QuoteBox extends React.Component {
   }
 
   componentDidMount() {
-    this.getQuote(URL);
+    this.getQuote();
   }
 
   render() {
@@ -62,7 +62,7 @@ class QuoteBox extends React.Component {
         <Quote
           quote={this.state.quote}
           author={this.state.author} />
-        <QuoteControls />
+        <QuoteControls nextQuote={this.getQuote} />
       </div>
     );
   }
