@@ -1,8 +1,9 @@
 :root {
-  --main-color: rgba(0,0,0,0.8);
+  --main-color: rgba(0, 0, 0, 0.8);
 }
 /* Small devices and up */
-html, body {
+html,
+body {
   height: 100%;
   width: 100%;
 }
