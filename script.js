@@ -76,7 +76,7 @@ class QuoteBox extends React.Component {
   render() {
     return (
       <div id="quote-box" className="d-flex flex-column m-2 rounded">
-        <h1 className="text-center border-bottom">Tech Quotes</h1>
+        <h1 className="text-center border-bottom">Coding Quotes</h1>
         <Quote
           quote={this.state.quote}
           author={this.state.author} />
