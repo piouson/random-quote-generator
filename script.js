@@ -1,4 +1,5 @@
 const API = "https://programming-quotes-api.herokuapp.com/quotes/random";
+const TWITTER_LINK = "https://twitter.com/intent/tweet?";
 
 class Quote extends React.Component {
   render() {
@@ -16,14 +17,31 @@ class Quote extends React.Component {
 }
 
 class QuoteControls extends React.Component {
+  getQueryString(obj) {
+    return Object.keys(obj).reduce((a, e) => {
+      a.push(`${e}=${obj[e]}`);
+      return a;
+    }, []).join("&");
+  }
+
+  getTwitterLink(data) {
+    const url = {
+      text: encodeURIComponent(`"${data.quote}" ${data.author}.`),
+      url: window.location.href,
+      hashtags: encodeURIComponent("quotes, codingQuotes"),
+      via: "piouson_code"
+    }
+    return `${TWITTER_LINK}${this.getQueryString(url)}`;
+  }
+
   render() {
+    const tweet_link = this.getTwitterLink(this.props.data);
     return (
       <div id="quote-controls" className="d-flex justify-content-between p-3 border-top">
         <div id="quote-share">
-          <a id="tweet-quote" href="#" className="p-1" target="_blank">
-            <i className="fab fa-twitter"></i></a>
-          <a id="insta-quote" href="#" className="p-1" target="_blank">
-            <i className="fab fa-instagram"></i></a>
+          <a id="tweet-quote" className="p-1" target="_blank"
+            href={tweet_link}>
+            <i className="fab fa-twitter twitter-share-button"></i></a>
         </div>
         <button id="new-quote" type="button" className="btn not-focusable"
           onClick={this.props.nextQuote} >New Quote</button>
@@ -62,7 +80,9 @@ class QuoteBox extends React.Component {
         <Quote
           quote={this.state.quote}
           author={this.state.author} />
-        <QuoteControls nextQuote={this.getQuote} />
+        <QuoteControls
+          nextQuote={this.getQuote}
+          data={this.state} />
       </div>
     );
   }
