@@ -1,15 +1,15 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 function Quote(props) {
   return (
-    <Fragment>
-      <q>
+    <blockquote>
+      <q id="text">
         {props.text}
       </q>
-      <footer>
+      <footer id="author">
         {props.author}
       </footer>
-    </Fragment>
+    </blockquote>
   );
 }
 
