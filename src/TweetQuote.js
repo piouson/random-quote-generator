@@ -1,4 +1,6 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 
 const TWEET_URI = 'https://twitter.com/intent/tweet?';
 
@@ -25,7 +27,7 @@ function TweetQuote(props) {
     <div>
       <a id="tweet-quote" href={link} 
         target="_blank" rel="noopener noreferrer">
-        <i className="fab fa-twitter"></i>
+        <FontAwesomeIcon className="tweet-icon" icon={faTwitter} color="green" />
       </a>
     </div>
   );
