@@ -1,42 +1,46 @@
 import { useState, useEffect, useCallback } from 'react';
 
-const useSemiPersistentState = (key, initialState) => {
+const quotesApi = 'http://quotes.stormconsultancy.co.uk/random.json';
+
+const useLocalStorage = (key) => {
   const [value, setValue] = useState(
-    JSON.parse(localStorage.getItem(key)) || initialState
+    JSON.parse(localStorage.getItem(key))
   );
 
   useEffect(() => {
     localStorage.setItem(key, JSON.stringify(value));
   }, [value, key]);
 
-  return [value, setValue]
-}
+  return [value, setValue];
+};
 
 const useQuotesApi = () => {
-  const [quote, setQuote] = useSemiPersistentState('quote','');
-  const [url,] = useState(
-    'https://programming-quotes-api.herokuapp.com/quotes/random'
-  );
+  const [quote, setQuote] = useLocalStorage('quote');
   const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const fetchQuotes = useCallback(async () => {
     setError('');
-    setIsLoading(true);
+    setLoading(true);
     await new Promise(resolve => setTimeout(resolve, 500));
 
-    const response = await fetch(url);
-    if (!response.ok) {
-      setError(`HTTP Error: Status: ${response.status}!`);
+    try {
+      const response = await fetch(quotesApi);
+      if (!response.ok) {
+        setError(`HTTP Error: Status: ${response.status}!`);
+      }
+      else {
+        const result = await response.json();
+        setQuote(result);
+      }
+    } catch (error) {
+      setError(`HTTP Error: ${error.message}`);
+    } finally {
+      setLoading(false);
     }
-    else {
-      const result = await response.json();
-      setQuote(result);
-    }
-    setIsLoading(false);
-  }, [url, setQuote]);
+  }, [setQuote]);
 
-  return [{quote, isLoading, error}, fetchQuotes]
+  return [{quote, loading, error}, fetchQuotes]
 }
 
 export default useQuotesApi;

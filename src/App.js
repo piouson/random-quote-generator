@@ -8,7 +8,7 @@ import QuoteHeader from './QuoteHeader';
 import useQuotesApi from './api';
 
 function App() {
-  const [{quote, isLoading, error}, fetchQuotes] = useQuotesApi();
+  const [{quote, loading, error}, fetchQuotes] = useQuotesApi();
 
   useEffect(() => {
     if (!quote) {
@@ -22,17 +22,17 @@ function App() {
         <QuoteHeader text="Coding Quotes" />
         <QuoteBox>
           {error && <p>{error}</p>}
-          {isLoading ? (
+          {loading ? (
             <p>Loading...</p>
           ) : (
-            quote.en && (
+            quote && (
               <Quote
-                text={quote.en}
+                text={quote.quote}
                 author={quote.author} />
             )
           )}
         </QuoteBox>
-        <QuoteControls handleClick={fetchQuotes} busy={isLoading} text="New Quote">
+        <QuoteControls handleClick={fetchQuotes} busy={loading} text="New Quote">
           <TweetQuote tweet={quote} />
         </QuoteControls>
       </div>

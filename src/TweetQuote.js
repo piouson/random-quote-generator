@@ -12,8 +12,10 @@ function getQueryString(obj) {
 }
 
 function getTweetLink(quote) {
+  if (!quote) return '';
+
   const query = {
-    text: encodeURIComponent(`"${quote.en}" ${quote.author}.`),
+    text: encodeURIComponent(`"${quote.quote}" ${quote.author}.`),
     url: window.location.href,
     hashtags: encodeURIComponent("quotes, codingQuotes"),
     via: "piouson_code"
